@@ -23,12 +23,40 @@ class MeinDialog(QtGui.QDialog, Dlg):
         self.ReadSets_PB.clicked.connect(self.read_set) # reads all files that start with lineEdit and creates a dict in the Sets_Dict[set][file][column]
         self.PlotFile_PB.clicked.connect(self.plotfile)
         self.NewFig_PB.clicked.connect(self.newfigure)
+        self.MAV_slider.sliderReleased.connect(self.mav)
+        self.MAV_slider.valueChanged.connect(self.mav_valuechanged)
+        self.LP_slider.sliderReleased.connect(self.lp)
+        self.LP_slider.valueChanged.connect(self.lp_valuechanged)
+        self.HP_slider.sliderReleased.connect(self.hp)
+        self.HP_slider.valueChanged.connect(self.hp_valuechanged)
         #self.CutZeros.clicked.connect(self.cut_zeros_filedict)
         self.PlotColumn_PB.clicked.connect(self.plotcolumn)
         
         self.Sets_Dict = dict() # contains [set1][file1][column1] - the data
         self.Files_Dict = dict() # contains [filename 1]: 'set-filename' 
         self.Columns_Dict = dict() # contains[set-filename-column]: same
+        
+    def lp_valuechanged(self):
+        self.LPEdit.setText(str(self.LP_slider.value()))       
+       
+    def lp(self):
+        print 'mav'
+        self.MAVEdit.setText(str(self.LP_slider.value()))
+        
+    def hp_valuechanged(self):
+        self.HPEdit.setText(str(self.HP_slider.value()))       
+       
+    def hp(self):
+        print 'mav'
+        self.MAVEdit.setText(str(self.HP_slider.value()))
+        
+    def mav_valuechanged(self):
+        self.MAVEdit.setText(str(self.MAV_slider.value()))       
+       
+    def mav(self):
+        print 'mav'
+        self.MAVEdit.setText(str(self.MAV_slider.value()))
+        
         
     def plotcolumn(self):
         for col in self.ColumnScroll.selectedItems():
