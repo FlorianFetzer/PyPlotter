@@ -4,7 +4,7 @@ Created on Fri Mar 21 08:58:40 2014
 
 @author: florian
 """
-
+import copy
 import numpy as np
 import matplotlib.pyplot as plt
 import os
@@ -67,6 +67,8 @@ class Plotter:
     def plot_eval(self, eval_function, args, figure_number, in_active_figure, selected_range):
         f = self.figure_list[figure_number]
         data_ax = f.axes[0]
+        data_ax_xlim = data_ax.get_xlim()
+        print 'xlim ', data_ax.get_xlim()
         if in_active_figure:
             if len(f.axes)==1: # bis jetz nur die Daten in einziger achse
                 print 'first, add axes'
@@ -77,15 +79,33 @@ class Plotter:
                     x = l.get_data()[0]
                     y = l.get_data()[1]
                     plt.plot(x,y, label = lab)
+                    plt.xlim(data_ax_xlim)
                 plt.legend()    
                 eval_ax = f.add_subplot(2,1,2)
+                if eval_function != self.fft:
+                    eval_ax.set_xlim(data_ax_xlim)
             else:
                 print '2nd'
                 eval_ax = f.axes[1]
                 eval_ax.lines = [] # clear old lines
             for l in data_ax.lines:
+                line_data = l.get_data()
+                if selected_range:  # get line with only data of the x-range in the figure
+                    end_ind = len(l.get_data()[0]-1)
+                    for i in range(len(l.get_data()[0])-1): # find range
+                        if l.get_data()[0][i+1] > data_ax.get_xlim()[0] and l.get_data()[0][i] <= data_ax.get_xlim()[0]:
+                            start_ind = i
+                            print start_ind
+                        if l.get_data()[0][i+1] > data_ax.get_xlim()[1] and l.get_data()[0][i] <= data_ax.get_xlim()[1]:
+                            end_ind = i
+                            print end_ind
+                            break
+                    l.set_data(l.get_data()[0][start_ind:end_ind], l.get_data()[1][start_ind:end_ind])                
                 (x,y,lab) = eval_function(l, args)
+                l.set_data(line_data)
                 eval_ax.plot(x,y, label = lab)
+                if eval_function != self.fft:
+                    eval_ax.set_xlim(data_ax.get_xlim())
             print 'Anz. der Axen: ', len(f.axes)
         else:
             figure_number = np.max(self.figure_list.keys())+ 1
@@ -94,7 +114,17 @@ class Plotter:
             self.figure_list[figure_number] = feval
             data_ax = f.axes[0]
             for l in data_ax.lines:
+                line_data = l.get_data()
+                if selected_range:  # get line with only data of the x-range in the figure
+                    for i in range(len(l.get_data()[0])-1): # find range
+                        if l.get_data()[0][i+1] > data_ax.get_xlim()[0] and l.get_data()[0][i] <= data_ax.get_xlim()[0]:
+                            start_ind = i
+                        if l.get_data()[0][i+1] > data_ax.get_xlim()[1] and l.get_data()[0][i] <= data_ax.get_xlim()[1]:
+                            end_ind = i
+                            break
+                    l.set_data(l.get_data()[0][start_ind:end_ind], l.get_data()[1][start_ind:end_ind])
                 (x,y,lab) = eval_function(l, args)
+                l.set_data(line_data)
                 plt.plot(x,y, label = lab)
         plt.title(lab.split('::')[0])
         plt.legend()
@@ -115,6 +145,7 @@ class Plotter:
         x = l.get_data()[0]
         y = l.get_data()[1]
         spec = np.abs(np.fft.fft(y))
+        print len(x), len(y)
         freqs = np.fft.fftfreq(spec.size, x[2]-x[1])
         idx = np.argsort(freqs)
         return (freqs[idx], spec[idx], 'FFT::' + lab)
