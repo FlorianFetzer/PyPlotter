@@ -268,6 +268,19 @@
      <bool>false</bool>
     </property>
    </widget>
+   <widget class="QPushButton" name="Clear_PB">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>150</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Clear All</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
@@ -279,9 +292,9 @@
     </rect>
    </property>
    <property name="title">
-    <string>Plot Data</string>
+    <string>Eval Data</string>
    </property>
-   <widget class="QPushButton" name="Plot_All_PB">
+   <widget class="QPushButton" name="FFT_PB">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -295,6 +308,9 @@
     </property>
    </widget>
    <widget class="QPushButton" name="NewFig_PB">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>540</x>
@@ -443,14 +459,17 @@
    <widget class="QCheckBox" name="InActiveFigure">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>10</y>
+      <x>310</x>
+      <y>20</y>
       <width>141</width>
       <height>17</height>
      </rect>
     </property>
     <property name="text">
      <string>Apply in Current Figure</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="label_4">
@@ -487,6 +506,32 @@
       <width>31</width>
       <height>20</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="SelectedRange">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>20</y>
+      <width>121</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Use Selected range</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Export_PB">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>130</y>
+      <width>121</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>export Plotted Data</string>
     </property>
    </widget>
   </widget>

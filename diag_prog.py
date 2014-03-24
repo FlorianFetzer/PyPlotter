@@ -11,6 +11,7 @@ from PyQt4 import QtGui, QtCore
 from diag import Ui_Dialog as Dlg
 from DataReader import DataReader
 from Plotter import Plotter
+import numpy as np
 
 class MeinDialog(QtGui.QDialog, Dlg): 
     def __init__(self): 
@@ -23,18 +24,44 @@ class MeinDialog(QtGui.QDialog, Dlg):
         self.ReadSets_PB.clicked.connect(self.read_set) # reads all files that start with lineEdit and creates a dict in the Sets_Dict[set][file][column]
         self.PlotFile_PB.clicked.connect(self.plotfile)
         self.NewFig_PB.clicked.connect(self.newfigure)
-        self.MAV_slider.sliderReleased.connect(self.mav)
         self.MAV_slider.valueChanged.connect(self.mav_valuechanged)
+        self.MAV_slider.sliderReleased.connect(self.mav_released)
         self.LP_slider.sliderReleased.connect(self.lp)
         self.LP_slider.valueChanged.connect(self.lp_valuechanged)
         self.HP_slider.sliderReleased.connect(self.hp)
         self.HP_slider.valueChanged.connect(self.hp_valuechanged)
         #self.CutZeros.clicked.connect(self.cut_zeros_filedict)
         self.PlotColumn_PB.clicked.connect(self.plotcolumn)
+        self.Clear_PB.clicked.connect(self.clear)
+        self.Export_PB.clicked.connect(self.export)
+        self.FFT_PB.clicked.connect(self.fft)
         
         self.Sets_Dict = dict() # contains [set1][file1][column1] - the data
         self.Files_Dict = dict() # contains [filename 1]: 'set-filename' 
         self.Columns_Dict = dict() # contains[set-filename-column]: same
+        
+    def mav_released(self):
+        if not self.InActiveFigure.isChecked():
+            self.MAVEdit.setText(str(self.MAV_slider.value())) 
+            fnum = self.Plotter.plot_eval(self.Plotter.mav, int(self.MAVEdit.text()), int(self.CurrentFigureEdit.text()), self.InActiveFigure.isChecked(), self.SelectedRange.isChecked())
+            self.CurrentFigureEdit.setText(str(fnum))
+        
+    def fft(self):
+        print 'fft'
+        fnum = self.Plotter.plot_eval(self.Plotter.fft, 0, int(self.CurrentFigureEdit.text()), self.InActiveFigure.isChecked(), self.SelectedRange.isChecked())
+        self.CurrentFigureEdit.setText(str(fnum))
+    
+    def export(self):
+        self.Plotter.export(int(self.CurrentFigureEdit.text()))
+        
+        
+    def clear(self):
+        self.Sets_Dict = dict()
+        self.update_SetScroll()
+        self.Files_Dict = dict()
+        self.update_FileScroll()
+        self.Columns_Dict = dict()
+        self.update_ColumnScroll()
         
     def lp_valuechanged(self):
         self.LPEdit.setText(str(self.LP_slider.value()))       
@@ -51,13 +78,11 @@ class MeinDialog(QtGui.QDialog, Dlg):
         self.MAVEdit.setText(str(self.HP_slider.value()))
         
     def mav_valuechanged(self):
-        self.MAVEdit.setText(str(self.MAV_slider.value()))       
-       
-    def mav(self):
-        print 'mav'
         self.MAVEdit.setText(str(self.MAV_slider.value()))
-        
-        
+        if self.InActiveFigure.isChecked():
+            fnum = self.Plotter.plot_eval(self.Plotter.mav, int(self.MAVEdit.text()), int(self.CurrentFigureEdit.text()), self.InActiveFigure.isChecked(), self.SelectedRange.isChecked())
+            self.CurrentFigureEdit.setText(str(fnum))
+
     def plotcolumn(self):
         for col in self.ColumnScroll.selectedItems():
             key = str(col.text()).split('::')

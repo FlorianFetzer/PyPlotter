@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Desktop\qt\PyPlotter\diag.ui'
 #
-# Created: Sat Mar 22 19:46:21 2014
+# Created: Sun Mar 23 19:28:52 2014
 #      by: PyQt4 UI code generator 4.9.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -81,13 +81,17 @@ class Ui_Dialog(object):
         self.AverageSets.setGeometry(QtCore.QRect(140, 180, 121, 21))
         self.AverageSets.setChecked(False)
         self.AverageSets.setObjectName(_fromUtf8("AverageSets"))
+        self.Clear_PB = QtGui.QPushButton(self.groupBox)
+        self.Clear_PB.setGeometry(QtCore.QRect(10, 150, 111, 31))
+        self.Clear_PB.setObjectName(_fromUtf8("Clear_PB"))
         self.groupBox_2 = QtGui.QGroupBox(Dialog)
         self.groupBox_2.setGeometry(QtCore.QRect(10, 290, 631, 171))
         self.groupBox_2.setObjectName(_fromUtf8("groupBox_2"))
-        self.Plot_All_PB = QtGui.QPushButton(self.groupBox_2)
-        self.Plot_All_PB.setGeometry(QtCore.QRect(40, 40, 75, 23))
-        self.Plot_All_PB.setObjectName(_fromUtf8("Plot_All_PB"))
+        self.FFT_PB = QtGui.QPushButton(self.groupBox_2)
+        self.FFT_PB.setGeometry(QtCore.QRect(40, 40, 75, 23))
+        self.FFT_PB.setObjectName(_fromUtf8("FFT_PB"))
         self.NewFig_PB = QtGui.QPushButton(self.groupBox_2)
+        self.NewFig_PB.setEnabled(False)
         self.NewFig_PB.setGeometry(QtCore.QRect(540, 90, 75, 23))
         self.NewFig_PB.setObjectName(_fromUtf8("NewFig_PB"))
         self.LP_slider = QtGui.QSlider(self.groupBox_2)
@@ -127,7 +131,8 @@ class Ui_Dialog(object):
         self.HPEdit.setGeometry(QtCore.QRect(390, 80, 31, 20))
         self.HPEdit.setObjectName(_fromUtf8("HPEdit"))
         self.InActiveFigure = QtGui.QCheckBox(self.groupBox_2)
-        self.InActiveFigure.setGeometry(QtCore.QRect(160, 10, 141, 17))
+        self.InActiveFigure.setGeometry(QtCore.QRect(310, 20, 141, 17))
+        self.InActiveFigure.setChecked(True)
         self.InActiveFigure.setObjectName(_fromUtf8("InActiveFigure"))
         self.label_4 = QtGui.QLabel(self.groupBox_2)
         self.label_4.setGeometry(QtCore.QRect(480, 60, 91, 16))
@@ -138,6 +143,12 @@ class Ui_Dialog(object):
         self.MAVEdit = QtGui.QLineEdit(self.groupBox_2)
         self.MAVEdit.setGeometry(QtCore.QRect(310, 140, 31, 20))
         self.MAVEdit.setObjectName(_fromUtf8("MAVEdit"))
+        self.SelectedRange = QtGui.QCheckBox(self.groupBox_2)
+        self.SelectedRange.setGeometry(QtCore.QRect(120, 20, 121, 17))
+        self.SelectedRange.setObjectName(_fromUtf8("SelectedRange"))
+        self.Export_PB = QtGui.QPushButton(self.groupBox_2)
+        self.Export_PB.setGeometry(QtCore.QRect(500, 130, 121, 23))
+        self.Export_PB.setObjectName(_fromUtf8("Export_PB"))
         self.groupBox_3 = QtGui.QGroupBox(Dialog)
         self.groupBox_3.setGeometry(QtCore.QRect(20, 470, 421, 71))
         self.groupBox_3.setObjectName(_fromUtf8("groupBox_3"))
@@ -172,8 +183,9 @@ class Ui_Dialog(object):
         self.ColsOfInterestEdit.setText(QtGui.QApplication.translate("Dialog", "Zeit, R-Raw, T-Raw, P-Raw, Refl, Temp, Plasma", None, QtGui.QApplication.UnicodeUTF8))
         self.label_10.setText(QtGui.QApplication.translate("Dialog", "Columns of interest", None, QtGui.QApplication.UnicodeUTF8))
         self.AverageSets.setText(QtGui.QApplication.translate("Dialog", "Average over Set", None, QtGui.QApplication.UnicodeUTF8))
-        self.groupBox_2.setTitle(QtGui.QApplication.translate("Dialog", "Plot Data", None, QtGui.QApplication.UnicodeUTF8))
-        self.Plot_All_PB.setText(QtGui.QApplication.translate("Dialog", "FFT", None, QtGui.QApplication.UnicodeUTF8))
+        self.Clear_PB.setText(QtGui.QApplication.translate("Dialog", "Clear All", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_2.setTitle(QtGui.QApplication.translate("Dialog", "Eval Data", None, QtGui.QApplication.UnicodeUTF8))
+        self.FFT_PB.setText(QtGui.QApplication.translate("Dialog", "FFT", None, QtGui.QApplication.UnicodeUTF8))
         self.NewFig_PB.setText(QtGui.QApplication.translate("Dialog", "New Figure", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("Dialog", "Low Pass", None, QtGui.QApplication.UnicodeUTF8))
         self.label_3.setText(QtGui.QApplication.translate("Dialog", "High Pass", None, QtGui.QApplication.UnicodeUTF8))
@@ -183,6 +195,8 @@ class Ui_Dialog(object):
         self.InActiveFigure.setText(QtGui.QApplication.translate("Dialog", "Apply in Current Figure", None, QtGui.QApplication.UnicodeUTF8))
         self.label_4.setText(QtGui.QApplication.translate("Dialog", "active Eval. Figure", None, QtGui.QApplication.UnicodeUTF8))
         self.EvalFigure.setText(QtGui.QApplication.translate("Dialog", "0", None, QtGui.QApplication.UnicodeUTF8))
+        self.SelectedRange.setText(QtGui.QApplication.translate("Dialog", "Use Selected range", None, QtGui.QApplication.UnicodeUTF8))
+        self.Export_PB.setText(QtGui.QApplication.translate("Dialog", "export Plotted Data", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_3.setTitle(QtGui.QApplication.translate("Dialog", "Save Data", None, QtGui.QApplication.UnicodeUTF8))
         self.label_9.setText(QtGui.QApplication.translate("Dialog", "History", None, QtGui.QApplication.UnicodeUTF8))
 
