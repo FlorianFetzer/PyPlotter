@@ -91,21 +91,25 @@ class Plotter:
             for l in data_ax.lines:
                 line_data = l.get_data()
                 if selected_range:  # get line with only data of the x-range in the figure
-                    end_ind = len(l.get_data()[0]-1)
-                    for i in range(len(l.get_data()[0])-1): # find range
-                        if l.get_data()[0][i+1] > data_ax.get_xlim()[0] and l.get_data()[0][i] <= data_ax.get_xlim()[0]:
+                    end_ind = len(line_data[0])-1
+                    for i in range(len(line_data[0])-1): # find range
+                        if line_data[0][i+1] > data_ax.get_xlim()[0] and line_data[0][i] <= data_ax.get_xlim()[0]:
                             start_ind = i
                             print start_ind
-                        if l.get_data()[0][i+1] > data_ax.get_xlim()[1] and l.get_data()[0][i] <= data_ax.get_xlim()[1]:
+                        if line_data[0][i+1] > data_ax.get_xlim()[1] and line_data[0][i] <= data_ax.get_xlim()[1]:
                             end_ind = i
-                            print end_ind
+                            print end_ind - start_ind
                             break
-                    l.set_data(l.get_data()[0][start_ind:end_ind], l.get_data()[1][start_ind:end_ind])                
+                    l.set_data(line_data[0][start_ind:end_ind], line_data[1][start_ind:end_ind])
+                    print 'len line_data before eval_func ', len(l.get_data()[0])
                 (x,y,lab) = eval_function(l, args)
                 l.set_data(line_data)
                 eval_ax.plot(x,y, label = lab)
-                if eval_function != self.fft:
-                    eval_ax.set_xlim(data_ax.get_xlim())
+                if eval_function == self.fft:
+                    print 'FFT'
+                    eval_ax.set_xlim((np.min(x), np.max(x)))
+                    eval_ax.set_ylim((np.min(y), np.max(y)))
+                    plt.title('FFT')
             print 'Anz. der Axen: ', len(f.axes)
         else:
             figure_number = np.max(self.figure_list.keys())+ 1
