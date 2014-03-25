@@ -64,7 +64,7 @@ class Plotter:
         plt.title('Data Plot')
         print self.figure_list
         
-    def plot_eval(self, eval_function, args, figure_number, in_active_figure, selected_range):
+    def plot_eval(self, eval_function, args, figure_number, in_active_figure, selected_range, subtract_mean):
         f = self.figure_list[figure_number]
         data_ax = f.axes[0]
         data_ax_xlim = data_ax.get_xlim()
@@ -92,6 +92,7 @@ class Plotter:
                 line_data = l.get_data()
                 if selected_range:  # get line with only data of the x-range in the figure
                     end_ind = len(line_data[0])-1
+                    start_ind = 0
                     for i in range(len(line_data[0])-1): # find range
                         if line_data[0][i+1] > data_ax.get_xlim()[0] and line_data[0][i] <= data_ax.get_xlim()[0]:
                             start_ind = i
@@ -102,13 +103,12 @@ class Plotter:
                             break
                     l.set_data(line_data[0][start_ind:end_ind], line_data[1][start_ind:end_ind])
                     print 'len line_data before eval_func ', len(l.get_data()[0])
-                (x,y,lab) = eval_function(l, args)
+                (x,y,lab) = eval_function(l, args, subtract_mean)
                 l.set_data(line_data)
                 eval_ax.plot(x,y, label = lab)
+                eval_ax.set_xlim((np.min(x), np.max(x)))
+                eval_ax.set_ylim((np.min(y), np.max(y)))
                 if eval_function == self.fft:
-                    print 'FFT'
-                    eval_ax.set_xlim((np.min(x), np.max(x)))
-                    eval_ax.set_ylim((np.min(y), np.max(y)))
                     plt.title('FFT')
             print 'Anz. der Axen: ', len(f.axes)
         else:
@@ -120,6 +120,8 @@ class Plotter:
             for l in data_ax.lines:
                 line_data = l.get_data()
                 if selected_range:  # get line with only data of the x-range in the figure
+                    end_ind = len(line_data[0])-1
+                    start_ind = 0
                     for i in range(len(l.get_data()[0])-1): # find range
                         if l.get_data()[0][i+1] > data_ax.get_xlim()[0] and l.get_data()[0][i] <= data_ax.get_xlim()[0]:
                             start_ind = i
@@ -127,7 +129,7 @@ class Plotter:
                             end_ind = i
                             break
                     l.set_data(l.get_data()[0][start_ind:end_ind], l.get_data()[1][start_ind:end_ind])
-                (x,y,lab) = eval_function(l, args)
+                (x,y,lab) = eval_function(l, args, subtract_mean)
                 l.set_data(line_data)
                 plt.plot(x,y, label = lab)
         plt.title(lab.split('::')[0])
@@ -135,19 +137,25 @@ class Plotter:
         print self.figure_list
         return figure_number        
         
-    def mav(self, l, mav_edit):
+    def mav(self, l, mav_edit, subtract_mean):
         print 'Plotter.mav'
         lab = l.get_label()
         x = l.get_data()[0]
-        y = l.get_data()[1]
+        y = np.zeros(len(l.get_data()[1]) + 2*mav_edit)
+        y[0:mav_edit] = l.get_data()[1][0]
+        y[mav_edit:mav_edit + len(l.get_data()[1])] = l.get_data()[1]
+        y[mav_edit + len(l.get_data()[1])-1:] = l.get_data()[1][-1]
         y = np.convolve(y, np.ones(mav_edit)/mav_edit, 'same')
+        y = y[mav_edit:-mav_edit]
         return (x,y,'MAV-'+str(mav_edit) + '::' + lab)
         
-    def fft(self,l, args):
+    def fft(self,l, args, subtract_mean):
         print 'Plotter.fft'
         lab = l.get_label()
         x = l.get_data()[0]
         y = l.get_data()[1]
+        if subtract_mean:
+            y = y-np.mean(y)
         spec = np.abs(np.fft.fft(y))
         print len(x), len(y)
         freqs = np.fft.fftfreq(spec.size, x[2]-x[1])

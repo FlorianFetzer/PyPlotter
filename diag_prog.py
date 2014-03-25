@@ -23,7 +23,6 @@ class MeinDialog(QtGui.QDialog, Dlg):
         self.ShowFile_PB.clicked.connect(self.show_file_start) # shows first lines in the textbrowser
         self.ReadSets_PB.clicked.connect(self.read_set) # reads all files that start with lineEdit and creates a dict in the Sets_Dict[set][file][column]
         self.PlotFile_PB.clicked.connect(self.plotfile)
-        self.NewFig_PB.clicked.connect(self.newfigure)
         self.MAV_slider.valueChanged.connect(self.mav_valuechanged)
         self.MAV_slider.sliderReleased.connect(self.mav_released)
         self.LP_slider.sliderReleased.connect(self.lp)
@@ -69,12 +68,12 @@ class MeinDialog(QtGui.QDialog, Dlg):
     def mav_released(self):
         if not self.InActiveFigure.isChecked():
             self.MAVEdit.setText(str(self.MAV_slider.value())) 
-            fnum = self.Plotter.plot_eval(self.Plotter.mav, int(self.MAVEdit.text()), int(self.CurrentFigureEdit.text()), self.InActiveFigure.isChecked(), self.SelectedRange.isChecked())
+            fnum = self.Plotter.plot_eval(self.Plotter.mav, int(self.MAVEdit.text()), int(self.CurrentFigureEdit.text()), self.InActiveFigure.isChecked(), self.SelectedRange.isChecked(), self.SubtractMean_PB.isChecked())
             self.CurrentFigureEdit.setText(str(fnum))
         
     def fft(self):
         print 'fft'
-        fnum = self.Plotter.plot_eval(self.Plotter.fft, 0, int(self.CurrentFigureEdit.text()), self.InActiveFigure.isChecked(), self.SelectedRange.isChecked())
+        fnum = self.Plotter.plot_eval(self.Plotter.fft, 0, int(self.CurrentFigureEdit.text()), self.InActiveFigure.isChecked(), self.SelectedRange.isChecked(), self.SubtractMean_PB.isChecked())
         self.CurrentFigureEdit.setText(str(fnum))
     
     def export(self):
@@ -106,7 +105,7 @@ class MeinDialog(QtGui.QDialog, Dlg):
     def mav_valuechanged(self):
         self.MAVEdit.setText(str(self.MAV_slider.value()))
         if self.InActiveFigure.isChecked():
-            fnum = self.Plotter.plot_eval(self.Plotter.mav, int(self.MAVEdit.text()), int(self.CurrentFigureEdit.text()), self.InActiveFigure.isChecked(), self.SelectedRange.isChecked())
+            fnum = self.Plotter.plot_eval(self.Plotter.mav, int(self.MAVEdit.text()), int(self.CurrentFigureEdit.text()), self.InActiveFigure.isChecked(), self.SelectedRange.isChecked(), self.SubtractMean_PB.isChecked())
             self.CurrentFigureEdit.setText(str(fnum))
 
     def plotcolumn(self):
@@ -124,11 +123,6 @@ class MeinDialog(QtGui.QDialog, Dlg):
 #            for fd in self.Files_Dict.keys():
 #                self.Files_Dict[fd] = self.datreader.cutzeros_file_dict(self.Files_Dict[fd])
                 
-        
-        
-    def newfigure(self):
-        self.Plotter.newfigure()
-        self.CurrentFigureEdit.setText(str(len(self.Plotter.figure_list)))
         
     def plotfile(self):
         for f in self.FileScroll.selectedItems():

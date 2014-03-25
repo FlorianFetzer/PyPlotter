@@ -297,30 +297,14 @@
    <widget class="QPushButton" name="FFT_PB">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>40</y>
+      <x>450</x>
+      <y>80</y>
       <width>75</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
      <string>FFT</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="NewFig_PB">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>90</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>New Figure</string>
     </property>
    </widget>
    <widget class="QSlider" name="LP_slider">
@@ -472,32 +456,6 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>480</x>
-      <y>60</y>
-      <width>91</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>active Eval. Figure</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="EvalFigure">
-    <property name="geometry">
-     <rect>
-      <x>580</x>
-      <y>60</y>
-      <width>31</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>0</string>
-    </property>
-   </widget>
    <widget class="QLineEdit" name="MAVEdit">
     <property name="geometry">
      <rect>
@@ -532,6 +490,19 @@
     </property>
     <property name="text">
      <string>export Plotted Data</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="SubtractMean_PB">
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>80</y>
+      <width>101</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>subtract mean</string>
     </property>
    </widget>
   </widget>
