@@ -35,10 +35,36 @@ class MeinDialog(QtGui.QDialog, Dlg):
         self.Clear_PB.clicked.connect(self.clear)
         self.Export_PB.clicked.connect(self.export)
         self.FFT_PB.clicked.connect(self.fft)
+        self.ReadLabBook.clicked.connect(self.readlabbook)
         
         self.Sets_Dict = dict() # contains [set1][file1][column1] - the data
         self.Files_Dict = dict() # contains [filename 1]: 'set-filename' 
         self.Columns_Dict = dict() # contains[set-filename-column]: same
+        
+    def readlabbook(self):
+        #self.HistoryEdit.insertPlainText(self.HistoryEdit.text())
+        print 'read labbook'
+        lab_dict = self.datreader.get_labdict(str(self.lineEdit.text()))
+        filelist = lab_dict.keys()
+        print filelist
+        path = os.path.dirname(os.path.join(os.getcwd(), str(self.lineEdit.text())))
+        filelist = [os.path.join(path, f) for f in filelist if f in os.listdir(path)]
+        print filelist
+        cols_of_interest = [str(c).rstrip(' ').lstrip(' ') for c in self.ColsOfInterestEdit.text().split(',')]
+        print cols_of_interest
+        self.Sets_Dict[str(self.lineEdit.text())] = self.datreader.read_files(filelist, cols_of_interest)
+        #self.cut_zeros_filedict()
+        lab_dict = self.datreader.get_labdict(str(self.lineEdit.text()))
+        for f in self.Sets_Dict[str(self.lineEdit.text())].keys():
+            for info in lab_dict[f].keys():
+                self.Sets_Dict[str(self.lineEdit.text())][f][info] = lab_dict[f][info]
+        self.update_SetScroll()
+        self.update_Files_Dict() 
+        self.update_FileScroll()
+        self.update_Columns_Dict()
+        self.update_ColumnScroll()
+        print self.Sets_Dict.keys()
+        
         
     def mav_released(self):
         if not self.InActiveFigure.isChecked():
@@ -88,7 +114,7 @@ class MeinDialog(QtGui.QDialog, Dlg):
             key = str(col.text()).split('::')
             col_data = self.Sets_Dict[key[0]][key[1]][key[2]]
             x_axis = self.Sets_Dict[key[0]][key[1]]['Zeit']
-            label = str(col.text())
+            label = str(col.text()+ '')
             self.Plotter.plot_column(x_axis, col_data, int(self.CurrentFigureEdit.text()), label)
         
 #    def cut_zeros_filedict(self):
@@ -139,10 +165,12 @@ class MeinDialog(QtGui.QDialog, Dlg):
             
     def update_Columns_Dict(self):
         print 'update_FilesDict'
+        cols_of_interest = [str(c).rstrip(' ').lstrip(' ') for c in self.ColsOfInterestEdit.text().split(',')]
         for s in self.Sets_Dict.keys(): # sets
             for f in self.Sets_Dict[s].keys(): #files
                 for c in self.Sets_Dict[s][f].keys():
-                    self.Columns_Dict[s + '::' + f + '::' + c] = s + '::' + f + '::' + c
+                    if c in cols_of_interest:
+                        self.Columns_Dict[s + '::' + f + '::' + c] = s + '::' + f + '::' + c
         
     def update_Files_Dict(self):
         print 'update_FilesDict'

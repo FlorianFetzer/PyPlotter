@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Desktop\qt\PyPlotter\diag.ui'
+# Form implementation generated from reading ui file 'Desktop\qt\Pyplotter\diag.ui'
 #
-# Created: Sun Mar 23 19:28:52 2014
+# Created: Tue Mar 25 11:12:37 2014
 #      by: PyQt4 UI code generator 4.9.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -30,7 +30,7 @@ class Ui_Dialog(object):
         self.groupBox.setGeometry(QtCore.QRect(20, 10, 631, 271))
         self.groupBox.setObjectName(_fromUtf8("groupBox"))
         self.lineEdit = QtGui.QLineEdit(self.groupBox)
-        self.lineEdit.setGeometry(QtCore.QRect(20, 30, 113, 20))
+        self.lineEdit.setGeometry(QtCore.QRect(2, 30, 131, 20))
         self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
         self.PlotSets_PB = QtGui.QPushButton(self.groupBox)
         self.PlotSets_PB.setGeometry(QtCore.QRect(140, 150, 75, 23))
@@ -41,9 +41,9 @@ class Ui_Dialog(object):
         self.PlotColumn_PB = QtGui.QPushButton(self.groupBox)
         self.PlotColumn_PB.setGeometry(QtCore.QRect(420, 150, 75, 23))
         self.PlotColumn_PB.setObjectName(_fromUtf8("PlotColumn_PB"))
-        self.ReadFile_PB = QtGui.QPushButton(self.groupBox)
-        self.ReadFile_PB.setGeometry(QtCore.QRect(20, 60, 101, 23))
-        self.ReadFile_PB.setObjectName(_fromUtf8("ReadFile_PB"))
+        self.ReadLabBook = QtGui.QPushButton(self.groupBox)
+        self.ReadLabBook.setGeometry(QtCore.QRect(20, 60, 101, 23))
+        self.ReadLabBook.setObjectName(_fromUtf8("ReadLabBook"))
         self.label_6 = QtGui.QLabel(self.groupBox)
         self.label_6.setGeometry(QtCore.QRect(180, 10, 46, 13))
         self.label_6.setObjectName(_fromUtf8("label_6"))
@@ -155,12 +155,12 @@ class Ui_Dialog(object):
         self.textBrowser = QtGui.QTextBrowser(Dialog)
         self.textBrowser.setGeometry(QtCore.QRect(660, 10, 291, 171))
         self.textBrowser.setObjectName(_fromUtf8("textBrowser"))
-        self.textEdit = QtGui.QTextEdit(Dialog)
-        self.textEdit.setGeometry(QtCore.QRect(660, 220, 291, 91))
-        self.textEdit.setObjectName(_fromUtf8("textEdit"))
         self.label_9 = QtGui.QLabel(Dialog)
         self.label_9.setGeometry(QtCore.QRect(660, 200, 46, 13))
         self.label_9.setObjectName(_fromUtf8("label_9"))
+        self.HistoryEdit = QtGui.QPlainTextEdit(Dialog)
+        self.HistoryEdit.setGeometry(QtCore.QRect(660, 230, 104, 71))
+        self.HistoryEdit.setObjectName(_fromUtf8("HistoryEdit"))
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -170,11 +170,11 @@ class Ui_Dialog(object):
         self.OK_PB.setText(QtGui.QApplication.translate("Dialog", "ok", None, QtGui.QApplication.UnicodeUTF8))
         self.Abbr_PB.setText(QtGui.QApplication.translate("Dialog", "abbr", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox.setTitle(QtGui.QApplication.translate("Dialog", "Read Data", None, QtGui.QApplication.UnicodeUTF8))
-        self.lineEdit.setText(QtGui.QApplication.translate("Dialog", "AlMg3", None, QtGui.QApplication.UnicodeUTF8))
+        self.lineEdit.setText(QtGui.QApplication.translate("Dialog", "testdata/laborbuch.txt", None, QtGui.QApplication.UnicodeUTF8))
         self.PlotSets_PB.setText(QtGui.QApplication.translate("Dialog", "Plot Sets", None, QtGui.QApplication.UnicodeUTF8))
         self.ReadSets_PB.setText(QtGui.QApplication.translate("Dialog", "Read Set", None, QtGui.QApplication.UnicodeUTF8))
         self.PlotColumn_PB.setText(QtGui.QApplication.translate("Dialog", "Plot Column", None, QtGui.QApplication.UnicodeUTF8))
-        self.ReadFile_PB.setText(QtGui.QApplication.translate("Dialog", "Read File", None, QtGui.QApplication.UnicodeUTF8))
+        self.ReadLabBook.setText(QtGui.QApplication.translate("Dialog", "Read from LabBook", None, QtGui.QApplication.UnicodeUTF8))
         self.label_6.setText(QtGui.QApplication.translate("Dialog", "Sets", None, QtGui.QApplication.UnicodeUTF8))
         self.label_7.setText(QtGui.QApplication.translate("Dialog", "Columns", None, QtGui.QApplication.UnicodeUTF8))
         self.label_8.setText(QtGui.QApplication.translate("Dialog", "Files", None, QtGui.QApplication.UnicodeUTF8))
@@ -199,4 +199,5 @@ class Ui_Dialog(object):
         self.Export_PB.setText(QtGui.QApplication.translate("Dialog", "export Plotted Data", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_3.setTitle(QtGui.QApplication.translate("Dialog", "Save Data", None, QtGui.QApplication.UnicodeUTF8))
         self.label_9.setText(QtGui.QApplication.translate("Dialog", "History", None, QtGui.QApplication.UnicodeUTF8))
+        self.HistoryEdit.setPlainText(QtGui.QApplication.translate("Dialog", "asAS", None, QtGui.QApplication.UnicodeUTF8))
 

@@ -10,9 +10,9 @@ import matplotlib.pyplot as plt
 import os
 
 class Plotter:
-    figure_list = dict()
-    
-    
+    figure_list = dict()       
+         
+         
     def export(self, figure_number):
         exnumber = str(np.max([int(s.split('_')[1].strip('.txt')) for s in os.listdir(os.getcwd()) if s.startswith('export')]) + 1)
         header = ''
@@ -60,7 +60,7 @@ class Plotter:
             plt.title('Data Plot')
         data_ax = f.axes[0]
         data_ax.plot(x_axis, col_data, label = lab)
-        plt.legend()
+        plt.legend(prop={'size':6})
         plt.title('Data Plot')
         print self.figure_list
         

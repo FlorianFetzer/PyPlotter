@@ -60,14 +60,14 @@
    <widget class="QLineEdit" name="lineEdit">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>2</x>
       <y>30</y>
-      <width>113</width>
+      <width>131</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>AlMg3</string>
+     <string>testdata/laborbuch.txt</string>
     </property>
    </widget>
    <widget class="QPushButton" name="PlotSets_PB">
@@ -109,7 +109,7 @@
      <string>Plot Column</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="ReadFile_PB">
+   <widget class="QPushButton" name="ReadLabBook">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -119,7 +119,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Read File</string>
+     <string>Read from LabBook</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_6">
@@ -558,16 +558,6 @@
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit">
-   <property name="geometry">
-    <rect>
-     <x>660</x>
-     <y>220</y>
-     <width>291</width>
-     <height>91</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_9">
    <property name="geometry">
     <rect>
@@ -579,6 +569,19 @@
    </property>
    <property name="text">
     <string>History</string>
+   </property>
+  </widget>
+  <widget class="QPlainTextEdit" name="HistoryEdit">
+   <property name="geometry">
+    <rect>
+     <x>660</x>
+     <y>230</y>
+     <width>104</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="plainText">
+    <string>asAS</string>
    </property>
   </widget>
  </widget>

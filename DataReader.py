@@ -5,10 +5,36 @@ Created on Thu Mar 20 13:37:32 2014
 @author: florian
 """
 import numpy as np
+import os
 
 files_Mg3 = ['AlMg3_33kW_6_1.txt', 'AlMg3_33kW_6_2.txt', 'AlMg3_33kW_6_3.txt', 'AlMg3_33kW_6_4.txt',]
 
+
 class DataReader:
+    
+    
+        
+    def get_labdict(self, labbook):
+        """   """
+        print 'get_labdict'
+        lb = open(labbook, 'r')
+        line = lb.readline()
+        while not line.startswith('# lfd'):
+            line = lb.readline()
+        print line
+        headers = line.rstrip('\n').split('\t')
+        print headers
+        l = lb.readline()
+        file_dict = dict()
+        while l !='':
+            filename = l.split('\t')[0] + '.txt'
+            print filename
+            file_dict[filename] = dict()
+            for i,col in enumerate(l.strip('\n').split('\t')):
+                file_dict[filename][headers[i]] = col
+            l = lb.readline()
+        return file_dict
+                
     
     def read_files(self,file_list, cols_of_interest):
         """  returns dictionary: [filename1][column1],...[filename_n][column_n]  """
@@ -41,7 +67,7 @@ class DataReader:
             for i,h in enumerate(headers):
                 dictdata[h] = numdata[:,cols[i]]    
 #            norm_data(dictdata)# scale to max = 1
-            AlMgSi1[fi] = dictdata     
+            AlMgSi1[os.path.basename(fi)] = dictdata     
         return AlMgSi1
         
     def cutzeros_file_dict(self,file_dict):
