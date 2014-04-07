@@ -35,10 +35,17 @@ class MeinDialog(QtGui.QDialog, Dlg):
         self.Export_PB.clicked.connect(self.export)
         self.FFT_PB.clicked.connect(self.fft)
         self.ReadLabBook.clicked.connect(self.readlabbook)
-        
+        self.MAVEdit.returnPressed.connect(self.mav_released)
+        self.MVAREdit.returnPressed.connect(self.mvar)
+        self.MMMINEdit.returnPressed.connect(self.mmmin)
+        self.Corr_PB.clicked.connect(self.correlate)
         self.Sets_Dict = dict() # contains [set1][file1][column1] - the data
         self.Files_Dict = dict() # contains [filename 1]: 'set-filename' 
         self.Columns_Dict = dict() # contains[set-filename-column]: same
+        
+    def correlate(self):
+        fnum = self.Plotter.plot_eval(self.Plotter.correlate, 0, int(self.CurrentFigureEdit.text()), self.InActiveFigure.isChecked(), self.SelectedRange.isChecked(), self.SubtractMean_PB.isChecked())
+        self.CurrentFigureEdit.setText(str(fnum))
         
     def readlabbook(self):
         #self.HistoryEdit.insertPlainText(self.HistoryEdit.text())
@@ -63,13 +70,21 @@ class MeinDialog(QtGui.QDialog, Dlg):
         self.update_Columns_Dict()
         self.update_ColumnScroll()
         print self.Sets_Dict.keys()
+    
+    def mvar(self):
+        fnum = self.Plotter.plot_eval(self.Plotter.mvar, int(self.MVAREdit.text()), int(self.CurrentFigureEdit.text()), self.InActiveFigure.isChecked(), self.SelectedRange.isChecked(), self.SubtractMean_PB.isChecked())
+        self.CurrentFigureEdit.setText(str(fnum))
+        
+    def mmmin(self):
+        fnum = self.Plotter.plot_eval(self.Plotter.mmmin, int(self.MMMINEdit.text()), int(self.CurrentFigureEdit.text()), self.InActiveFigure.isChecked(), self.SelectedRange.isChecked(), self.SubtractMean_PB.isChecked())
+        self.CurrentFigureEdit.setText(str(fnum))
         
         
     def mav_released(self):
-        if not self.InActiveFigure.isChecked():
-            self.MAVEdit.setText(str(self.MAV_slider.value())) 
-            fnum = self.Plotter.plot_eval(self.Plotter.mav, int(self.MAVEdit.text()), int(self.CurrentFigureEdit.text()), self.InActiveFigure.isChecked(), self.SelectedRange.isChecked(), self.SubtractMean_PB.isChecked())
-            self.CurrentFigureEdit.setText(str(fnum))
+        #if not self.InActiveFigure.isChecked():
+         #   self.MAVEdit.setText(str(self.MAV_slider.value())) 
+        fnum = self.Plotter.plot_eval(self.Plotter.mav, int(self.MAVEdit.text()), int(self.CurrentFigureEdit.text()), self.InActiveFigure.isChecked(), self.SelectedRange.isChecked(), self.SubtractMean_PB.isChecked())
+        self.CurrentFigureEdit.setText(str(fnum))
         
     def fft(self):
         print 'fft'

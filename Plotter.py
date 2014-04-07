@@ -149,6 +149,61 @@ class Plotter:
         y = y[mav_edit:-mav_edit]
         return (x,y,'MAV-'+str(mav_edit) + '::' + lab)
         
+    def mvar(self, l, mav_edit, subtract_mean):
+        print 'Plotter.mvar'
+        lab = l.get_label()
+        x = l.get_data()[0]
+        y = np.zeros(len(l.get_data()[1]) + 2*mav_edit)
+        y[0:mav_edit] = l.get_data()[1][0:mav_edit]
+        y[mav_edit:mav_edit + len(l.get_data()[1])] = l.get_data()[1]
+        y[mav_edit + len(l.get_data()[1])-1:] = l.get_data()[1][-1]
+        print mav_edit,len(y)-mav_edit
+        yn = np.zeros(len(y))
+        for i in range(mav_edit,len(y)-mav_edit):
+            yn[i] = np.var(y[i-int(mav_edit/2):i+mav_edit - int(mav_edit/2)])
+        yn = yn[mav_edit:-mav_edit]
+        print mav_edit,len(yn)-mav_edit
+        return (x,yn,'MVAR-'+str(mav_edit) + ', avg='+str(np.mean(yn))+ '::' + lab)
+        
+    def mmmin(self, l, mav_edit, subtract_mean):
+        print 'Plotter.mvar'
+        lab = l.get_label()
+        x = l.get_data()[0]
+        y = np.zeros(len(l.get_data()[1]) + 2*mav_edit)
+        y[0:mav_edit] = l.get_data()[1][0:mav_edit]
+        y[mav_edit:mav_edit + len(l.get_data()[1])] = l.get_data()[1]
+        y[mav_edit + len(l.get_data()[1])-1:] = l.get_data()[1][-1]
+        yn = np.zeros(len(y))
+        for i in range(mav_edit,len(y)-mav_edit):
+            print i
+            yn[i] = np.max(y[i-int(mav_edit/2):i+mav_edit - int(mav_edit/2)]) / np.min(y[i-int(mav_edit/2):i+mav_edit - int(mav_edit/2)])
+        yn = yn[mav_edit:-mav_edit]
+        return (x,yn,'MMMIN-'+str(mav_edit) + ', avg='+str(np.mean(yn))+ '::' + lab)
+        
+    def autocorr(self,l, args, subtract_mean):
+        print 'Plotter.autocorr'
+        lab = l.get_label()
+        x = l.get_data()[0]
+        y = l.get_data()[1]
+        centered_signal = y - np.mean(y)
+        ft_signal = np.fft.fft(centered_signal)
+        powerSpectralDensity = np.abs(ft_signal)**2
+        autoc = np.real(np.fft.ifft(powerSpectralDensity) / len(centered_signal))
+        return (np.arange(0,len(autoc,x[2]-x[1])), autoc, 'Autocorr::' + lab)
+        
+    def correlate(self,l, args, subtract_mean):
+        print 'Plotter.corr'
+        lab = l.get_label()
+        x = l.get_data()[0]
+        y = l.get_data()[1]
+        centered_signal = y - np.mean(y)
+        ft_signal = np.fft.fft(centered_signal)
+        powerSpectralDensity = np.abs(ft_signal)**2
+        autoc = np.real(np.fft.ifft(powerSpectralDensity) / len(centered_signal))
+        print autoc.flat[0]
+        #print len(np.arange(0,len(autoc),x[2]-x[1]))
+        return (np.arange(0,len(autoc)*(x[2]-x[1]),x[2]-x[1]), autoc/autoc.flat[0], 'Autocorr::' + lab)
+        
     def fft(self,l, args, subtract_mean):
         print 'Plotter.fft'
         lab = l.get_label()
@@ -156,7 +211,7 @@ class Plotter:
         y = l.get_data()[1]
         if subtract_mean:
             y = y-np.mean(y)
-        spec = np.abs(np.fft.fft(y))
+        spec = np.abs(np.fft.fft(y)) / np.sum(np.abs(np.fft.fft(y)))
         print len(x), len(y)
         freqs = np.fft.fftfreq(spec.size, x[2]-x[1])
         idx = np.argsort(freqs)

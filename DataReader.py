@@ -48,6 +48,7 @@ class DataReader:
             i = 0
             cols = list() # numbers of cols_of_interest
             while line !='':
+                #print line
                 if i ==8:   #--------header in line 9
                     header = f.readline().strip('\n').split(' ')
                     headers = [h for h in header if h != '' and h in cols_of_interest]
