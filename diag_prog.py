@@ -19,6 +19,8 @@ class MeinDialog(QtGui.QDialog, Dlg):
         self.setupUi(self)        
         self.datreader = DataReader()        
         self.Plotter = Plotter()
+        self.directory = os.getcwd()
+        self.WorkingD_label.setText(self.directory)
         
         self.ShowFile_PB.clicked.connect(self.show_file_start) # shows first lines in the textbrowser
         self.ReadSets_PB.clicked.connect(self.read_set) # reads all files that start with lineEdit and creates a dict in the Sets_Dict[set][file][column]
@@ -39,9 +41,37 @@ class MeinDialog(QtGui.QDialog, Dlg):
         self.MVAREdit.returnPressed.connect(self.mvar)
         self.MMMINEdit.returnPressed.connect(self.mmmin)
         self.Corr_PB.clicked.connect(self.correlate)
+        self.Select_PB.clicked.connect(self.open_filedialog)  
+        self.Pyro_PB.clicked.connect(self.read_pyro)
+        
         self.Sets_Dict = dict() # contains [set1][file1][column1] - the data
         self.Files_Dict = dict() # contains [filename 1]: 'set-filename' 
         self.Columns_Dict = dict() # contains[set-filename-column]: same
+        
+    def read_pyro(self):
+        print 'read_pyro'
+        filelist = list()
+        filelist = [f for f in os.listdir(self.directory) if f.startswith(self.lineEdit.text())]
+        print filelist
+        filelist = [os.path.join(self.directory, f) for f in filelist]
+        cols_of_interest = [str(c).rstrip(' ').lstrip(' ') for c in self.ColsOfInterestEdit.text().split(',')]
+        print cols_of_interest
+        self.Sets_Dict[str(self.lineEdit.text())] = self.datreader.read_pyro(filelist, cols_of_interest)
+        #self.cut_zeros_filedict()
+        self.update_SetScroll()
+        self.update_Files_Dict() 
+        self.update_FileScroll()
+        self.update_Columns_Dict()
+        self.update_ColumnScroll()
+        print self.Sets_Dict.keys()
+        
+        
+    def open_filedialog(self):
+        files = str(QtGui.QFileDialog.getOpenFileName(None, QtCore.QString('Select File'), QtCore.QString(os.getcwd()),QtCore.QString('*.txt')))
+        print files
+        self.lineEdit.setText(os.path.basename(files))
+        self.WorkingD_label.setText(os.path.dirname(files))
+        self.directory = os.path.dirname(files)
         
     def correlate(self):
         fnum = self.Plotter.plot_eval(self.Plotter.correlate, 0, int(self.CurrentFigureEdit.text()), self.InActiveFigure.isChecked(), self.SelectedRange.isChecked(), self.SubtractMean_PB.isChecked())
@@ -53,7 +83,7 @@ class MeinDialog(QtGui.QDialog, Dlg):
         lab_dict = self.datreader.get_labdict(str(self.lineEdit.text()))
         filelist = lab_dict.keys()
         print filelist
-        path = os.path.dirname(os.path.join(os.getcwd(), str(self.lineEdit.text())))
+        path = self.directory
         filelist = [os.path.join(path, f) for f in filelist if f in os.listdir(path)]
         print filelist
         cols_of_interest = [str(c).rstrip(' ').lstrip(' ') for c in self.ColsOfInterestEdit.text().split(',')]
@@ -150,8 +180,9 @@ class MeinDialog(QtGui.QDialog, Dlg):
     def read_set(self):
         print 'read_set'
         filelist = list()
-        filelist = [f for f in os.listdir(os.getcwd()) if f.startswith(self.lineEdit.text())]
+        filelist = [f for f in os.listdir(self.directory) if f.startswith(self.lineEdit.text())]
         print filelist
+        filelist = [os.path.join(self.directory, f) for f in filelist]
         cols_of_interest = [str(c).rstrip(' ').lstrip(' ') for c in self.ColsOfInterestEdit.text().split(',')]
         print cols_of_interest
         self.Sets_Dict[str(self.lineEdit.text())] = self.datreader.read_files(filelist, cols_of_interest)

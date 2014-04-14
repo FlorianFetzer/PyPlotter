@@ -106,10 +106,24 @@ class Plotter:
                 (x,y,lab) = eval_function(l, args, subtract_mean)
                 l.set_data(line_data)
                 eval_ax.plot(x,y, label = lab)
-                eval_ax.set_xlim((np.min(x), np.max(x)))
-                eval_ax.set_ylim((np.min(y), np.max(y)))
+            
                 if eval_function == self.fft:
                     plt.title('FFT')
+            x_min = 999999
+            x_max = -999999
+            y_min = 999999
+            y_max = -99999
+            for l in eval_ax.lines:
+                if np.max(l.get_data()[0])> x_max:
+                    x_max = np.max(l.get_data()[0])
+                if np.max(l.get_data()[1])> y_max:
+                    y_max = np.max(l.get_data()[1])
+                if np.min(l.get_data()[0])< x_min:
+                    x_min = np.min(l.get_data()[0])
+                if np.min(l.get_data()[1]) < y_min:
+                    y_min = np.min(l.get_data()[1])
+            eval_ax.set_xlim((x_min - x_min*0.1,x_max +  x_max*0.1))
+            eval_ax.set_ylim((y_min - y_min*0.1, y_max + y_max*0.1))
             print 'Anz. der Axen: ', len(f.axes)
         else:
             figure_number = np.max(self.figure_list.keys())+ 1
@@ -175,8 +189,7 @@ class Plotter:
         y[mav_edit + len(l.get_data()[1])-1:] = l.get_data()[1][-1]
         yn = np.zeros(len(y))
         for i in range(mav_edit,len(y)-mav_edit):
-            print i
-            yn[i] = np.max(y[i-int(mav_edit/2):i+mav_edit - int(mav_edit/2)]) / np.min(y[i-int(mav_edit/2):i+mav_edit - int(mav_edit/2)])
+            yn[i] = np.min(y[i-int(mav_edit/2):i+mav_edit - int(mav_edit/2)]) / np.max(y[i-int(mav_edit/2):i+mav_edit - int(mav_edit/2)])
         yn = yn[mav_edit:-mav_edit]
         return (x,yn,'MMMIN-'+str(mav_edit) + ', avg='+str(np.mean(yn))+ '::' + lab)
         

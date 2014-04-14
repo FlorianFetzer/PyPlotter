@@ -12,7 +12,41 @@ files_Mg3 = ['AlMg3_33kW_6_1.txt', 'AlMg3_33kW_6_2.txt', 'AlMg3_33kW_6_3.txt', '
 
 class DataReader:
     
-    
+    def read_pyro(self,file_list, cols_of_interest):
+        """  returns dictionary: [filename1][column1],...[filename_n][column_n]  """
+        AlMgSi1 = dict()
+        for fi in file_list:  
+            print 'read: ', fi 
+            lines = []
+            dictdata = dict()
+            f = open(fi)
+            line = f.readline()
+            i = 0
+            cols = list() # numbers of cols_of_interest
+            while line !='':
+                #print line
+                if i ==9:   #--------header in line 9
+                    header = f.readline().strip('\n').split(',')
+                    headers = [h for h in header if h != '' and h in cols_of_interest]
+                    all_headers = [h for h in header if h != '']
+                    for j in range(len(all_headers)):
+                        if all_headers[j] in headers:
+                            cols.append(j)
+                    print headers
+                if i >9:
+                    #print i
+                    line = line.rstrip('\n').split(',')   #-----columns seperated by ' '
+                    line = [l for l in line if l != '']
+                    #line.remove('')
+                    lines.append(line)
+                line = f.readline()
+                i = i+1
+            numdata = np.asanyarray(lines, dtype = 'float')
+            for i,h in enumerate(headers):
+                dictdata[h] = numdata[:,cols[i]]    
+    #        norm_data(dictdata)# scale to max = 1
+            AlMgSi1[os.path.basename(fi)] = dictdata     
+        return AlMgSi1
         
     def get_labdict(self, labbook):
         """   """
