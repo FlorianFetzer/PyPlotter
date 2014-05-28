@@ -109,6 +109,7 @@ class Plotter:
             
                 if eval_function == self.fft:
                     plt.title('FFT')
+                    plt.yscale('log')
             x_min = 999999
             x_max = -999999
             y_min = 999999
@@ -230,6 +231,8 @@ class Plotter:
         idx = np.argsort(freqs)
         return (freqs[idx], spec[idx], 'FFT::' + lab)
           
+	def dummy():
+		return 'dummy'
             
     def newfigure(self):
         f = plt.figure(len(self.figure_list))

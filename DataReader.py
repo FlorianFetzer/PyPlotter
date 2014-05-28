@@ -24,9 +24,9 @@ class DataReader:
             i = 0
             cols = list() # numbers of cols_of_interest
             while line !='':
-                #print line
+                print line
                 if i ==9:   #--------header in line 9
-                    header = f.readline().strip('\n').split(',')
+                    header = f.readline().strip('\n').split(' ')
                     headers = [h for h in header if h != '' and h in cols_of_interest]
                     all_headers = [h for h in header if h != '']
                     for j in range(len(all_headers)):
@@ -35,7 +35,7 @@ class DataReader:
                     print headers
                 if i >9:
                     #print i
-                    line = line.rstrip('\n').split(',')   #-----columns seperated by ' '
+                    line = line.rstrip('\n').split(' ')   #-----columns seperated by ' '
                     line = [l for l in line if l != '']
                     #line.remove('')
                     lines.append(line)

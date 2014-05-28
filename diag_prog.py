@@ -12,6 +12,7 @@ from diag import Ui_Dialog as Dlg
 from DataReader import DataReader
 from Plotter import Plotter
 import numpy as np
+import matplotlib.pyplot as plt
 
 class MeinDialog(QtGui.QDialog, Dlg): 
     def __init__(self): 
@@ -43,11 +44,23 @@ class MeinDialog(QtGui.QDialog, Dlg):
         self.Corr_PB.clicked.connect(self.correlate)
         self.Select_PB.clicked.connect(self.open_filedialog)  
         self.Pyro_PB.clicked.connect(self.read_pyro)
+        self.Log_PB.clicked.connect(self.log_scale)
         
         self.Sets_Dict = dict() # contains [set1][file1][column1] - the data
         self.Files_Dict = dict() # contains [filename 1]: 'set-filename' 
         self.Columns_Dict = dict() # contains[set-filename-column]: same
         
+    def log_scale(self):
+        print 'log_scale'
+        f = self.Plotter.figure_list[int(self.CurrentFigureEdit.text())]
+        ax = f.axes[int(self.ax_scale_edit.text())]
+        if ax.get_yscale == 'linear':
+            ax.set_yscale('log')
+            print 'log'
+        else:
+            ax.set_yscale('linear')
+        plt.title('')
+                
     def read_pyro(self):
         print 'read_pyro'
         filelist = list()

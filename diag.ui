@@ -571,6 +571,32 @@
      <string>Corrrelate</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="Log_PB">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>160</y>
+      <width>91</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>change Scale</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="ax_scale_edit">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>160</y>
+      <width>31</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>2</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QTextBrowser" name="textBrowser">
    <property name="geometry">

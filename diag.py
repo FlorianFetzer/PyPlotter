@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'C:\Users\ifsw-ffetzer\Documents\GitHub\PyPlotter\diag.ui'
 #
-# Created: Mon Apr 14 15:48:25 2014
+# Created: Fri Apr 25 16:18:30 2014
 #      by: PyQt4 UI code generator 4.9.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -167,6 +167,12 @@ class Ui_Dialog(object):
         self.Corr_PB = QtGui.QPushButton(self.groupBox_2)
         self.Corr_PB.setGeometry(QtCore.QRect(450, 120, 75, 23))
         self.Corr_PB.setObjectName(_fromUtf8("Corr_PB"))
+        self.Log_PB = QtGui.QPushButton(self.groupBox_2)
+        self.Log_PB.setGeometry(QtCore.QRect(580, 160, 91, 28))
+        self.Log_PB.setObjectName(_fromUtf8("Log_PB"))
+        self.ax_scale_edit = QtGui.QLineEdit(self.groupBox_2)
+        self.ax_scale_edit.setGeometry(QtCore.QRect(680, 160, 31, 22))
+        self.ax_scale_edit.setObjectName(_fromUtf8("ax_scale_edit"))
         self.textBrowser = QtGui.QTextBrowser(Dialog)
         self.textBrowser.setGeometry(QtCore.QRect(750, 20, 361, 171))
         self.textBrowser.setObjectName(_fromUtf8("textBrowser"))
@@ -214,6 +220,8 @@ class Ui_Dialog(object):
         self.label_4.setText(_translate("Dialog", "MVAR", None))
         self.label_11.setText(_translate("Dialog", "MMMIN", None))
         self.Corr_PB.setText(_translate("Dialog", "Corrrelate", None))
+        self.Log_PB.setText(_translate("Dialog", "change Scale", None))
+        self.ax_scale_edit.setText(_translate("Dialog", "2", None))
         self.label_9.setText(_translate("Dialog", "History", None))
         self.HistoryEdit.setPlainText(_translate("Dialog", "asAS", None))
 
